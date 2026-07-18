@@ -237,7 +237,7 @@ footer a{color:#a8f0c4;text-decoration:none;}
       <div class="logo-text">
         <div class="inst">Instituto Federal de São Paulo</div>
         <div class="title">HUB da Turma — Redes de Computadores</div>
-        <div class="sub">Campus Pirituba · 2026 · 1° Semestre</div>
+        <div class="sub">Campus Pirituba · 2026 · 2° Semestre</div>
       </div>
     </div>
   </div>
@@ -267,7 +267,7 @@ footer a{color:#a8f0c4;text-decoration:none;}
   <div class="hero-banner">
     <div class="hero-banner-inner">
       <div class="hero-text">
-        <div class="eyebrow">Turma Redes · 2026 · 1° Semestre</div>
+        <div class="eyebrow">Turma Redes · 2026 · 2° Semestre</div>
         <h1>HUB de Organização da Turma</h1>
         <p>Calendário de datas sincronizado com as notas do Obsidian, grade de aulas e acesso rápido ao Moodle — tudo em um só portal.</p>
       </div>
@@ -297,7 +297,7 @@ footer a{color:#a8f0c4;text-decoration:none;}
           <div class="panel-head"><div class="panel-head-title">🏫 Campus Pirituba</div></div>
           <div class="panel-body" style="font-size:13px;line-height:2;color:#444;">
             <strong>Curso:</strong> Técnico em Redes de Computadores<br/>
-            <strong>Turma:</strong> REDES — 2026/1° Semestre<br/>
+            <strong>Turma:</strong> REDES — 2026/2° Semestre<br/>
             <strong>Turno:</strong> Matutino / Vespertino<br/>
             <strong>Portal IFSP:</strong> <a href="https://www.ifsp.edu.br" target="_blank" style="color:#1a7a3c;">ifsp.edu.br</a><br/>
             <strong>SUAP:</strong> <a href="https://suap.ifsp.edu.br" target="_blank" style="color:#1a7a3c;">suap.ifsp.edu.br</a><br/>
@@ -381,7 +381,7 @@ footer a{color:#a8f0c4;text-decoration:none;}
   <div class="content-area">
     <div class="chip-bar" id="chipBar"></div>
     <div class="panel">
-      <div class="panel-head"><div class="panel-head-title">📅 Horário Semanal — Turma Redes 2026/1</div></div>
+      <div class="panel-head"><div class="panel-head-title">📅 Horário Semanal — Turma Redes 2026/2</div></div>
       <div class="panel-body" style="padding:0.8rem;">
         <div class="calendar-scroll"><table class="sched-table" id="schedTable"></table></div>
       </div>
@@ -395,7 +395,7 @@ footer a{color:#a8f0c4;text-decoration:none;}
 
 <!-- FOOTER -->
 <footer>
-  <p>HUB da Turma Redes — IFSP Campus Pirituba · 2026/1° Semestre</p>
+  <p>HUB da Turma Redes — IFSP Campus Pirituba · 2026/2° Semestre</p>
   <p style="margin-top:4px;"><a href="https://www.ifsp.edu.br" target="_blank">ifsp.edu.br</a> · Feito pela turma</p>
 </footer>
 
@@ -413,26 +413,26 @@ const GIST_RAW  = `https://gist.githubusercontent.com/Abra-oMaker/${GIST_ID}/raw
 // ══════════════════════════════════════════════════
 const DAYS = ["SEG","TER","QUA","QUI","SEX"];
 const ROWS = [
-  {ts:"07:00",te:"07:50",cells:["","","Inglês","",""],colors:["","","#2d7a00","",""]},
-  {ts:"07:50",te:"08:40",cells:["","","Inglês","",""],colors:["","","#2d7a00","",""]},
-  {ts:"08:40",te:"09:30",cells:["","","Literatura e Sociedade","Biologia",""],colors:["","","#8a3a6e","#1a7a3c",""]},
+  {ts:"07:00",te:"07:50",cells:["Nivelamento Matemática","Nivelamento Matemática","Inglês I","",""],colors:["#00aaff","#00aaff","#c4007a","",""]},
+  {ts:"07:50",te:"08:40",cells:["Nivelamento Matemática","Nivelamento Matemática","Inglês I","",""],colors:["#00aaff","#00aaff","#c4007a","",""]},
+  {ts:"08:40",te:"09:30",cells:["","","Literatura e Sociedade","",""],colors:["","","#8a007a","",""]},
   {ts:"09:30",te:"09:45",cells:["Intervalo","Intervalo","Intervalo","Intervalo","Intervalo"],colors:["","","","",""]},
-  {ts:"09:45",te:"10:35",cells:["","","Literatura e Sociedade","Biologia",""],colors:["","","#8a3a6e","#1a7a3c",""]},
-  {ts:"10:35",te:"11:25",cells:["Algoritmos e Programação","Língua Portuguesa","Geografia","Matemática",""],colors:["#5c2d91","#c05a00","#1a7a3c","#0066aa",""]},
-  {ts:"11:25",te:"12:15",cells:["Algoritmos e Programação","Língua Portuguesa","Geografia","Matemática",""],colors:["#5c2d91","#c05a00","#1a7a3c","#0066aa",""]},
+  {ts:"09:45",te:"10:35",cells:["","","Literatura e Sociedade","Geografia I",""],colors:["","","#8a007a","#007a44",""]},
+  {ts:"10:35",te:"11:25",cells:["","Fundamentos de TI","Geografia I","Fundamentos Matemáticos para Computação","Fundamentos Matemáticos para Computação"],colors:["","#1f2de5","#007a44","#0066aa","#0066aa"]},
+  {ts:"11:25",te:"12:15",cells:["","Administração de Sistemas Operacionais","Geografia I","Fundamentos Matemáticos para Computação","Fundamentos Matemáticos para Computação"],colors:["","#c05a00","#007a44","#0066aa","#0066aa"]},
   {ts:"12:15",te:"13:15",cells:["Almoço","Almoço","Almoço","Almoço","Almoço"],colors:["","","","",""]},
-  {ts:"13:15",te:"14:05",cells:["Física","Matemática","Círculo de Matemática","Educação Física","Arte"],colors:["#1a7a3c","#0066aa","#007a8a","#c05a00","#5c2d91"]},
-  {ts:"14:05",te:"14:55",cells:["Física","Matemática","Círculo de Matemática","Educação Física","Arte"],colors:["#1a7a3c","#0066aa","#007a8a","#c05a00","#5c2d91"]},
-  {ts:"14:55",te:"15:45",cells:["Adm. de Sistemas Op.","Princípios de Redes","Círculo de Matemática","Fund. Mat. p/ Comp.","Internet das Coisas"],colors:["#8a6d00","#007a8a","#007a8a","#007a8a","#0066aa"]},
-  {ts:"15:45",te:"16:00",cells:["Intervalo","Intervalo","Círculo de Matemática","Intervalo","Intervalo"],colors:["","","#007a8a","",""]},
-  {ts:"16:00",te:"16:50",cells:["Adm. de Sistemas Op.","Princípios de Redes","","Fund. Mat. p/ Comp.","Internet das Coisas"],colors:["#8a6d00","#007a8a","","#007a8a","#0066aa"]},
-  {ts:"16:50",te:"17:40",cells:["Química","Fundamentos de TI","","Geografia","Internet das Coisas"],colors:["#c05a00","#8a6d00","","#1a7a3c","#0066aa"]},
-  {ts:"17:40",te:"18:30",cells:["Química","Fundamentos de TI","","","Internet das Coisas"],colors:["#c05a00","#8a6d00","","","#0066aa"]}
+  {ts:"13:15",te:"14:05",cells:["Física I","Química I","","Proj: Internet das Coisas","Biologia I"],colors:["#6a7a77","#c05a00","","#7a00cc","#007a44"]},
+  {ts:"14:05",te:"14:55",cells:["Física I","Química I","","Proj: Internet das Coisas","Biologia I"],colors:["#6a7a77","#c05a00","","#7a00cc","#007a44"]},
+  {ts:"14:55",te:"15:45",cells:["Princípios de Redes","Língua Portuguesa I","","Educação Física I","Arte"],colors:["#007a8a","#8a7000","","#c05a00","#5c2d91"]},
+  {ts:"15:45",te:"16:00",cells:["Intervalo","Intervalo","Intervalo","Intervalo","Intervalo"],colors:["","","","",""]},
+  {ts:"16:00",te:"16:50",cells:["Administração de Sistemas Operacionais","Língua Portuguesa I","","Educação Física I","Arte"],colors:["#c05a00","#8a7000","","#c05a00","#5c2d91"]},
+  {ts:"16:50",te:"17:40",cells:["Princípios de Redes","","","Proj: Internet das Coisas",""],colors:["#007a8a","","","#7a00cc",""]},
+  {ts:"17:40",te:"18:30",cells:["Algoritmos e Programação","Algoritmos e Programação","","Proj: Internet das Coisas",""],colors:["#005faa","#005faa","","#7a00cc",""]}
 ];
 const FULL_NAMES = {
-  "Adm. de Sistemas Op.":"Administração de Sistemas Operacionais",
   "Princípios de Redes":"Princípios de Redes de Computadores",
-  "Fund. Mat. p/ Comp.":"Fundamentos Matemáticos para Computação"
+  "Proj: Internet das Coisas":"Projeto: Internet das Coisas",
+  "Fundamentos Matemáticos para Computação":"Fundamentos Matemáticos para Computação"
 };
 const subMap = {};
 ROWS.forEach(r => r.cells.forEach((c,i) => {
