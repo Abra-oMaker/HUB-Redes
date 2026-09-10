@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+<script>
+(function(){
+  try{
+    const saved = localStorage.getItem('hubTheme');
+    const wantsDark = saved ? saved === 'dark' : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    if(wantsDark) document.documentElement.setAttribute('data-theme','dark');
+  }catch(e){}
+})();
+</script>
 <link rel="icon" type="image/png" href="LogoIFSP.jpg">
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -214,6 +223,88 @@ footer a{color:#a8f0c4;text-decoration:none;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
 .fade-in{animation:fadeIn 0.22s both;}
 @media(max-width:600px){.nav-tab{padding:10px 12px;font-size:12px;}.hero-banner{padding:2rem 1rem;}.content-area{padding:1.2rem 1rem;}.hero-stats{display:none;}}
+
+/* ── TOGGLE DE TEMA ── */
+.theme-toggle-btn{background:transparent;border:1px solid #ccd0cc;border-radius:50%;width:38px;height:38px;font-size:1.05rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s;flex-shrink:0;}
+.theme-toggle-btn:hover{background:#f0f4f0;border-color:#1a7a3c;}
+
+/* ── REPORT MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.55);display:none;align-items:center;justify-content:center;z-index:1000;padding:1rem;}
+.modal-overlay.open{display:flex;}
+.modal-box{background:#fff;border-radius:6px;max-width:460px;width:100%;padding:1.4rem;box-shadow:0 10px 40px rgba(0,0,0,0.25);}
+.modal-box h3{font-family:'Source Serif 4',serif;font-size:1.1rem;margin-bottom:0.3rem;color:#1a1a1a;}
+.modal-box .modal-sub{font-size:12.5px;color:#666;margin-bottom:1rem;line-height:1.5;}
+.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:1rem;}
+.report-panel{background:#f0f8f2;border:1px solid #b8d8c4;border-radius:4px;padding:1rem 1.2rem;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;}
+.report-panel .rp-text strong{color:#1a1a1a;}
+.report-panel .rp-text p{font-size:12.5px;color:#555;margin-top:2px;max-width:520px;}
+
+/* ══════════════════════════════════════
+   MODO ESCURO
+══════════════════════════════════════ */
+html[data-theme="dark"] body{background:#14171a;color:#e9ecef;}
+html[data-theme="dark"] header{background:#1b1f22;border-bottom-color:#2fae63;box-shadow:0 2px 8px rgba(0,0,0,0.45);}
+html[data-theme="dark"] .logo-text .inst{color:#9aa1a6;}
+html[data-theme="dark"] .logo-text .title{color:#e9ecef;}
+html[data-theme="dark"] .logo-text .sub{color:#3ec97a;}
+html[data-theme="dark"] .breadcrumb{background:#1a1e21;border-bottom-color:#2b3136;color:#9aa1a6;}
+html[data-theme="dark"] .breadcrumb span{color:#3ec97a;}
+html[data-theme="dark"] .section-head h2{color:#e9ecef;}
+html[data-theme="dark"] .section-head p{color:#9aa1a6;}
+html[data-theme="dark"] .panel{background:#1c2024;border-color:#2b3136;}
+html[data-theme="dark"] .panel-head{background:#20262b;border-bottom-color:#2b3136;}
+html[data-theme="dark"] .panel-head-title{color:#3ec97a;}
+html[data-theme="dark"] .sched-table td{border-color:#2b3136;color:#e9ecef;}
+html[data-theme="dark"] .td-time{background:#20262b;color:#9aa1a6;}
+html[data-theme="dark"] .td-empty{background:#1c2024;}
+html[data-theme="dark"] .td-break{background:#3a1f24;color:#ff8a7a;}
+html[data-theme="dark"] .td-lunch{background:#3a2f14;color:#ffcf7a;}
+html[data-theme="dark"] .chip{background:#1c2024;color:#e9ecef;border-color:#2b3136;}
+html[data-theme="dark"] .chip:hover,html[data-theme="dark"] .chip.on{background:#1a7a3c;color:#fff;border-color:#1a7a3c;}
+html[data-theme="dark"] .cal-filter-btn{background:#1c2024;color:#e9ecef;border-color:#2b3136;}
+html[data-theme="dark"] .cal-filter-btn:hover,html[data-theme="dark"] .cal-filter-btn.on{background:#1a7a3c;color:#fff;border-color:#1a7a3c;}
+html[data-theme="dark"] .form-control{background:#22272b;border-color:#3a4046;color:#e9ecef;}
+html[data-theme="dark"] .form-label{color:#c8ccc8;}
+html[data-theme="dark"] .btn-outline{color:#3ec97a;border-color:#3ec97a;}
+html[data-theme="dark"] .btn-outline:hover{background:#3ec97a;color:#14171a;}
+html[data-theme="dark"] .cal-badge.total{background:#17301f;color:#3ec97a;border-color:#254c33;}
+html[data-theme="dark"] .cal-badge.pending{background:#332614;color:#f0b060;border-color:#4d3a1e;}
+html[data-theme="dark"] .cal-badge.done{background:#22262a;color:#aab0b4;border-color:#33393e;}
+html[data-theme="dark"] .cal-badge.overdue{background:#331b1b;color:#ff8a7a;border-color:#4d2626;}
+html[data-theme="dark"] .cal-badge.nodate{background:#1c2030;color:#8f9ce0;border-color:#2c335c;}
+html[data-theme="dark"] .tl-month-label{color:#3ec97a;border-bottom-color:#254c33;}
+html[data-theme="dark"] .tl-month-label .tl-count{background:#17301f;color:#3ec97a;}
+html[data-theme="dark"] .tl-item:hover{background:#20262b;border-color:#2b3136;}
+html[data-theme="dark"] .tl-item.is-overdue{background:#2a1717;border-color:#4d2626;}
+html[data-theme="dark"] .tl-item.is-today{background:#2b2712;border-color:#4d431e;}
+html[data-theme="dark"] .tl-item.is-soon{background:#182b1e;border-color:#254c33;}
+html[data-theme="dark"] .tl-item.is-nodate{background:#191c2a;border-color:#2c335c;}
+html[data-theme="dark"] .tl-day{color:#e9ecef;}
+html[data-theme="dark"] .tl-weekday{color:#8a9096;}
+html[data-theme="dark"] .tl-text{color:#e9ecef;}
+html[data-theme="dark"] .tl-vline{background:#2b3136;}
+html[data-theme="dark"] .tl-nodate-label{color:#8f9ce0;border-bottom-color:#2c335c;}
+html[data-theme="dark"] .sync-bar{color:#9aa1a6;}
+html[data-theme="dark"] .sync-btn{background:#1c2024;color:#e9ecef;border-color:#3a4046;}
+html[data-theme="dark"] .sync-btn:hover{background:#1a7a3c;color:#fff;border-color:#1a7a3c;}
+html[data-theme="dark"] .upcoming-item{border-bottom-color:#2b3136;}
+html[data-theme="dark"] .up-name{color:#e9ecef;}
+html[data-theme="dark"] .up-sub{color:#9aa1a6;}
+html[data-theme="dark"] .tab-btn{color:#9aa1a6;}
+html[data-theme="dark"] .tab-btn:hover,html[data-theme="dark"] .tab-btn.active{color:#3ec97a;border-bottom-color:#3ec97a;}
+html[data-theme="dark"] .tab-bar{border-bottom-color:#2b3136;}
+html[data-theme="dark"] .empty-msg,html[data-theme="dark"] .loading-msg{color:#8a9096;}
+html[data-theme="dark"] .error-msg{background:#331b1b;border-color:#4d2626;color:#ff8a7a;}
+html[data-theme="dark"] footer{background:#0e1012;}
+html[data-theme="dark"] .theme-toggle-btn{border-color:#3a4046;color:#e9ecef;}
+html[data-theme="dark"] .theme-toggle-btn:hover{background:#20262b;border-color:#3ec97a;}
+html[data-theme="dark"] .modal-box{background:#1c2024;color:#e9ecef;}
+html[data-theme="dark"] .modal-box h3{color:#e9ecef;}
+html[data-theme="dark"] .modal-box .modal-sub{color:#9aa1a6;}
+html[data-theme="dark"] .modal-box input,html[data-theme="dark"] .modal-box textarea{background:#22272b;border-color:#3a4046;color:#e9ecef;}
+html[data-theme="dark"] .report-panel{background:#182b1e;border-color:#254c33;}
+html[data-theme="dark"] .report-panel .rp-text strong{color:#e9ecef;}
+html[data-theme="dark"] .report-panel .rp-text p{color:#aab0b4;}
 </style>
 </head>
 <body>
@@ -241,6 +332,7 @@ footer a{color:#a8f0c4;text-decoration:none;}
         <div class="sub">Campus Pirituba · 2026 · 2° Semestre</div>
       </div>
     </div>
+    <button id="themeToggle" class="theme-toggle-btn" onclick="toggleTheme()" title="Alternar modo claro/escuro" aria-label="Alternar modo claro/escuro">🌙</button>
   </div>
 </header>
 
@@ -281,6 +373,13 @@ footer a{color:#a8f0c4;text-decoration:none;}
   </div>
 
   <div class="content-area">
+    <div class="report-panel">
+      <div class="rp-text">
+        <strong>📮 Esqueci de colocar alguma data?</strong>
+        <p>Se você é da turma e percebeu que falta ou está errada alguma data/avaliação, me avise por aqui — eu recebo o aviso e atualizo o mais rápido possível.</p>
+      </div>
+      <button class="btn-green" onclick="openReportModal()">Reportar data</button>
+    </div>
     <div class="two-col">
       <div>
         <div class="section-head"><h2>Próximas Datas</h2><p>Eventos pendentes mais próximos, sincronizados do Obsidian.</p></div>
@@ -401,6 +500,33 @@ footer a{color:#a8f0c4;text-decoration:none;}
   <p style="margin-top:4px;"><a href="https://www.ifsp.edu.br" target="_blank">ifsp.edu.br</a> · Feito pela turma</p>
 </footer>
 
+<!-- ══════════════════════════════════════
+     MODAL — REPORTAR DATA
+══════════════════════════════════════ -->
+<div class="modal-overlay" id="reportModal">
+  <div class="modal-box">
+    <h3>📮 Reportar data faltando/errada</h3>
+    <p class="modal-sub">Preencha abaixo. Ao confirmar, o aviso chega direto pra mim — não precisa de login em nada.</p>
+    <div class="form-row">
+      <label class="form-label">Data (DD/MM, se souber)</label>
+      <input type="text" class="form-control" id="repDate" placeholder="Ex: 25/09">
+    </div>
+    <div class="form-row">
+      <label class="form-label">Matéria / Assunto</label>
+      <input type="text" class="form-control" id="repSubj" placeholder="Ex: Redes de Computadores">
+    </div>
+    <div class="form-row">
+      <label class="form-label">O que está errado ou faltando?</label>
+      <textarea class="form-control" id="repDesc" placeholder="Descreva aqui..."></textarea>
+    </div>
+    <div class="modal-status" id="repStatus" style="display:none;font-size:12.5px;font-weight:600;margin-top:0.6rem;"></div>
+    <div class="modal-actions">
+      <button class="btn-outline" onclick="closeReportModal()" id="repCancelBtn">Cancelar</button>
+      <button class="btn-green" onclick="submitReport()" id="repSendBtn">Enviar aviso</button>
+    </div>
+  </div>
+</div>
+
 <script>
 'use strict';
 
@@ -423,13 +549,13 @@ const ROWS = [
   {ts:"10:35",te:"11:25",cells:["","Administração de Sistemas Operacionais","Geografia I","Matemática","Matemática"],colors:["","#1f2de5","#007a44","#0066aa","#0066aa"]},
   {ts:"11:25",te:"12:15",cells:["","Administração de Sistemas Operacionais","Geografia I","Matemática","Matemática"],colors:["","#1f2de5","#007a44","#0066aa","#0066aa"]},
   {ts:"12:15",te:"13:15",cells:["Almoço","Almoço","Almoço","Almoço","Almoço"],colors:["","","","",""]},
-  {ts:"13:15",te:"14:05",cells:["Física I","Química I","","Algoritmos e Programação","Biologia I"],colors:["#6a7a77","#c05a00","","#007a8a","#007a44"]},
+  {ts:"13:15",te:"14:05",cells:["Física I","Química I","","Proj: Internet das Coisas","Biologia I"],colors:["#6a7a77","#c05a00","","#7a00cc","#007a44"]},
   {ts:"14:05",te:"14:55",cells:["Física I","Química I","","Algoritmos e Programação","Biologia I"],colors:["#6a7a77","#c05a00","","#007a8a","#007a44"]},
   {ts:"14:55",te:"15:45",cells:["Princípios de Redes","Língua Portuguesa I","","Educação Física I","Arte"],colors:["#c05a00","#8a7000","","#c05a00","#5c2d91"]},
   {ts:"15:45",te:"16:00",cells:["Intervalo","Intervalo","Intervalo","Intervalo","Intervalo"],colors:["","","","",""]},
   {ts:"16:00",te:"16:50",cells:["Princípios de Redes","Língua Portuguesa I","","Educação Física I","Arte"],colors:["#c05a00","#8a7000","","#c05a00","#5c2d91"]},
-  {ts:"16:50",te:"17:40",cells:["","Fundamentos de TI","","Proj: Internet das Coisas",""],colors:["","#005faa","","#7a00cc",""]},
-  {ts:"17:40",te:"18:30",cells:["","Fundamentos de TI","","Proj: Internet das Coisas",""],colors:["","#005faa","","#7a00cc",""]}
+  {ts:"16:50",te:"17:40",cells:["","Fundamentos de TI","","",""],colors:["","#005faa","","",""]},
+  {ts:"17:40",te:"18:30",cells:["","Fundamentos de TI","","",""],colors:["","#005faa","","",""]}
 ];
 const FULL_NAMES = {
   "Princípios de Redes":"Princípios de Redes de Computadores",
@@ -762,8 +888,116 @@ function goPage(id){
 }
 
 // ══════════════════════════════════════════════════
+// TEMA CLARO/ESCURO
+// ══════════════════════════════════════════════════
+function updateThemeBtn(){
+  const btn = document.getElementById('themeToggle');
+  if(!btn) return;
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  btn.textContent = isDark ? '☀️' : '🌙';
+  btn.setAttribute('aria-label', isDark ? 'Ativar modo claro' : 'Ativar modo escuro');
+}
+function toggleTheme(){
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  if(isDark){
+    document.documentElement.removeAttribute('data-theme');
+    localStorage.setItem('hubTheme','light');
+  } else {
+    document.documentElement.setAttribute('data-theme','dark');
+    localStorage.setItem('hubTheme','dark');
+  }
+  updateThemeBtn();
+}
+
+// ══════════════════════════════════════════════════
+// REPORTAR DATA (envia notificação push via ntfy.sh
+// + e-mail de backup via Web3Forms — ambos gratuitos,
+// sem exigir login de quem está reportando)
+// ══════════════════════════════════════════════════
+
+// 1) Crie um tópico "secreto" (nome difícil de adivinhar) e assine em
+//    https://ntfy.sh/app (ou instale o app ntfy no celular) usando o MESMO nome abaixo.
+const NTFY_TOPIC = 'hub-redes-ifsp-a8f3k26742317';
+
+// 2) Crie uma chave grátis em https://web3forms.com (só pede um e-mail,
+//    sem cartão) e cole o "Access Key" recebido aqui:
+const WEB3FORMS_KEY = 'c5320490-54ee-4f61-916c-c5bcaacd9230';
+
+function openReportModal(){
+  document.getElementById('reportModal').classList.add('open');
+  setRepStatus('', '');
+}
+function closeReportModal(){
+  document.getElementById('reportModal').classList.remove('open');
+  document.getElementById('repDate').value = '';
+  document.getElementById('repSubj').value = '';
+  document.getElementById('repDesc').value = '';
+  setRepStatus('', '');
+}
+function setRepStatus(msg, kind){
+  const el = document.getElementById('repStatus');
+  if(!msg){ el.style.display = 'none'; el.textContent=''; return; }
+  el.style.display = 'block';
+  el.textContent = msg;
+  el.style.color = kind === 'err' ? '#c0392b' : kind === 'ok' ? '#1a7a3c' : '#666';
+}
+
+async function submitReport(){
+  const date = document.getElementById('repDate').value.trim();
+  const subj = document.getElementById('repSubj').value.trim();
+  const desc = document.getElementById('repDesc').value.trim();
+
+  if(!desc){
+    setRepStatus('Descreva o que está errado ou faltando antes de enviar.', 'err');
+    return;
+  }
+
+  const title = `📮 ${date ? date + ' – ' : ''}${subj || 'Atualização'} (HUB Redes)`;
+  const message = [
+    `Data sugerida: ${date || '(não informada)'}`,
+    `Matéria/Assunto: ${subj || '(não informado)'}`,
+    '',
+    'Descrição:',
+    desc
+  ].join('\n');
+
+  const sendBtn = document.getElementById('repSendBtn');
+  sendBtn.disabled = true;
+  setRepStatus('Enviando…', '');
+
+  const sendNtfy = fetch('https://ntfy.sh/', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ topic: NTFY_TOPIC, title, message, priority: 4, tags: ['warning','calendar'] })
+  });
+
+  const sendEmail = WEB3FORMS_KEY.startsWith('COLE_') ? Promise.reject(new Error('sem chave configurada')) : fetch('https://api.web3forms.com/submit', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+    body: JSON.stringify({ access_key: WEB3FORMS_KEY, subject: title, message })
+  });
+
+  const [ntfyResult, emailResult] = await Promise.allSettled([sendNtfy, sendEmail]);
+  const ntfyOk  = ntfyResult.status === 'fulfilled' && ntfyResult.value.ok;
+  const emailOk = emailResult.status === 'fulfilled' && emailResult.value.ok;
+
+  sendBtn.disabled = false;
+
+  if(ntfyOk || emailOk){
+    setRepStatus('✅ Aviso enviado! Obrigado por avisar.', 'ok');
+    setTimeout(closeReportModal, 1800);
+  } else {
+    setRepStatus('⚠️ Não consegui enviar. Verifique sua internet e tente de novo.', 'err');
+  }
+}
+document.getElementById('reportModal').addEventListener('click', function(e){
+  if(e.target === this) closeReportModal();
+});
+
+// ══════════════════════════════════════════════════
 // INIT
 // ══════════════════════════════════════════════════
+updateThemeBtn();
 buildChips();
 buildLegend();
 renderSched('');
