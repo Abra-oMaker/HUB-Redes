@@ -94,6 +94,7 @@ nav{background:#1a7a3c;}
 .td-time{background:#f8f8f8;font-size:11px;color:#555;font-weight:600;white-space:nowrap;}
 .td-empty{background:#fff;}
 .td-sub{font-weight:600;font-size:11.5px;}
+.td-split{font-weight:600;padding:0!important;}
 .td-break{background:#fff0f3;color:#c0392b;font-size:11px;font-weight:700;}
 .td-lunch{background:#fff8e1;color:#b05c00;font-size:11px;font-weight:700;}
 
@@ -228,6 +229,14 @@ footer a{color:#a8f0c4;text-decoration:none;}
 .theme-toggle-btn{background:transparent;border:1px solid #ccd0cc;border-radius:50%;width:38px;height:38px;font-size:1.05rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s;flex-shrink:0;}
 .theme-toggle-btn:hover{background:#f0f4f0;border-color:#1a7a3c;}
 
+/* ── ABAS DE TURMA ── */
+.turma-tab{background:#fff;border:1px solid #ccd0cc;border-radius:20px;padding:7px 18px;font-size:13px;font-weight:600;color:#555;cursor:pointer;transition:all 0.15s;}
+.turma-tab:hover{border-color:#1a7a3c;color:#1a7a3c;}
+.turma-tab.active{background:#1a7a3c;border-color:#1a7a3c;color:#fff;}
+.split-cell{display:flex;flex-direction:column;gap:2px;height:100%;}
+.split-cell>div{flex:1;display:flex;align-items:center;justify-content:center;padding:2px 4px;border-radius:3px;font-size:11.5px;line-height:1.2;}
+.split-cell>div:first-child{border-bottom:1px dashed currentColor;opacity:0.9;}
+
 /* ── REPORT MODAL ── */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.55);display:none;align-items:center;justify-content:center;z-index:1000;padding:1rem;}
 .modal-overlay.open{display:flex;}
@@ -298,6 +307,9 @@ html[data-theme="dark"] .error-msg{background:#331b1b;border-color:#4d2626;color
 html[data-theme="dark"] footer{background:#0e1012;}
 html[data-theme="dark"] .theme-toggle-btn{border-color:#3a4046;color:#e9ecef;}
 html[data-theme="dark"] .theme-toggle-btn:hover{background:#20262b;border-color:#3ec97a;}
+html[data-theme="dark"] .turma-tab{background:#1c2024;border-color:#3a4046;color:#c8ccc8;}
+html[data-theme="dark"] .turma-tab:hover{border-color:#3ec97a;color:#3ec97a;}
+html[data-theme="dark"] .turma-tab.active{background:#1a7a3c;border-color:#1a7a3c;color:#fff;}
 html[data-theme="dark"] .modal-box{background:#1c2024;color:#e9ecef;}
 html[data-theme="dark"] .modal-box h3{color:#e9ecef;}
 html[data-theme="dark"] .modal-box .modal-sub{color:#9aa1a6;}
@@ -480,9 +492,13 @@ html[data-theme="dark"] .report-panel .rp-text p{color:#aab0b4;}
     </div>
   </div>
   <div class="content-area">
+    <div class="turma-tabs" style="display:flex;gap:8px;margin-bottom:1rem;">
+      <button class="turma-tab active" id="turmaTabA" onclick="switchTurma('A')">Turma A</button>
+      <button class="turma-tab" id="turmaTabB" onclick="switchTurma('B')">Turma B</button>
+    </div>
     <div class="chip-bar" id="chipBar"></div>
     <div class="panel">
-      <div class="panel-head"><div class="panel-head-title">📅 Horário Semanal — Turma Redes 2026/2</div></div>
+      <div class="panel-head"><div class="panel-head-title">📅 Horário Semanal — Turma <span id="schedTurmaLabel">A</span> · Redes 2026/2</div></div>
       <div class="panel-body" style="padding:0.8rem;">
         <div class="calendar-scroll"><table class="sched-table" id="schedTable"></table></div>
       </div>
@@ -540,51 +556,104 @@ const GIST_RAW  = `https://gist.githubusercontent.com/Abra-oMaker/${GIST_ID}/raw
 // SCHEDULE DATA
 // ══════════════════════════════════════════════════
 const DAYS = ["SEG","TER","QUA","QUI","SEX"];
-const ROWS = [
+
+// ── TURMA A (grade que já estava no HUB) ──
+const ROWS_A = [
   {ts:"07:00",te:"07:50",cells:["Nivelamento Matemática","Nivelamento Matemática","Inglês I","",""],colors:["#00aaff","#00aaff","#c4007a","",""]},
   {ts:"07:50",te:"08:40",cells:["Nivelamento Matemática","Nivelamento Matemática","Inglês I","",""],colors:["#00aaff","#00aaff","#c4007a","",""]},
-  {ts:"08:40",te:"09:30",cells:["","Fundamentos Matemáticos para Computação","Literatura e Sociedade","",""],colors:["","5c2d91","#8a007a","",""]},
+  {ts:"08:40",te:"09:30",cells:["","Fundamentos Matemáticos para Computação","Literatura e Sociedade","Geografia I",""],colors:["","#5c2d91","#8a007a","#007a44",""]},
   {ts:"09:30",te:"09:45",cells:["Intervalo","Intervalo","Intervalo","Intervalo","Intervalo"],colors:["","","","",""]},
-  {ts:"09:45",te:"10:35",cells:["","Fundamentos Matemáticos para Computação","Literatura e Sociedade","Geografia I",""],colors:["","5c2d91","#8a007a","#007a44",""]},
+  {ts:"09:45",te:"10:35",cells:["","Fundamentos Matemáticos para Computação","Literatura e Sociedade","Geografia I",""],colors:["","#5c2d91","#8a007a","#007a44",""]},
   {ts:"10:35",te:"11:25",cells:["","Administração de Sistemas Operacionais","Geografia I","Matemática","Matemática"],colors:["","#1f2de5","#007a44","#0066aa","#0066aa"]},
   {ts:"11:25",te:"12:15",cells:["","Administração de Sistemas Operacionais","Geografia I","Matemática","Matemática"],colors:["","#1f2de5","#007a44","#0066aa","#0066aa"]},
   {ts:"12:15",te:"13:15",cells:["Almoço","Almoço","Almoço","Almoço","Almoço"],colors:["","","","",""]},
   {ts:"13:15",te:"14:05",cells:["Física I","Química I","","Proj: Internet das Coisas","Biologia I"],colors:["#6a7a77","#c05a00","","#7a00cc","#007a44"]},
   {ts:"14:05",te:"14:55",cells:["Física I","Química I","","Algoritmos e Programação","Biologia I"],colors:["#6a7a77","#c05a00","","#007a8a","#007a44"]},
-  {ts:"14:55",te:"15:45",cells:["Princípios de Redes","Língua Portuguesa I","","Educação Física I","Arte"],colors:["#c05a00","#8a7000","","#c05a00","#5c2d91"]},
+  {ts:"14:55",te:"15:45",cells:["Princípios de Redes","Língua Portuguesa I","","Educação Física I","Artes"],colors:["#c05a00","#8a7000","","#c05a00","#5c2d91"]},
   {ts:"15:45",te:"16:00",cells:["Intervalo","Intervalo","Intervalo","Intervalo","Intervalo"],colors:["","","","",""]},
-  {ts:"16:00",te:"16:50",cells:["Princípios de Redes","Língua Portuguesa I","","Educação Física I","Arte"],colors:["#c05a00","#8a7000","","#c05a00","#5c2d91"]},
+  {ts:"16:00",te:"16:50",cells:["Princípios de Redes","Língua Portuguesa I","","Educação Física I","Artes"],colors:["#c05a00","#8a7000","","#c05a00","#5c2d91"]},
   {ts:"16:50",te:"17:40",cells:["","Fundamentos de TI","","",""],colors:["","#005faa","","",""]},
   {ts:"17:40",te:"18:30",cells:["","Fundamentos de TI","","",""],colors:["","#005faa","","",""]}
 ];
+
+// ── TURMA B (nomes completos das matérias) ──
+// PTBSOC1 e PTBESP1 não têm par confirmado com a Turma A — usei "Sociologia"
+// e "Espanhol" como melhor suposição pelo código; confirme se estiver errado.
+const ROWS_B = [
+  {ts:"07:00",te:"07:50",cells:["Nivelamento Matemática","Nivelamento Matemática","Inglês I","",""],colors:["#00aaff","#00aaff","#c4007a","",""]},
+  {ts:"07:50",te:"08:40",cells:["Nivelamento Matemática","Nivelamento Matemática","Inglês I","",""],colors:["#00aaff","#00aaff","#c4007a","",""]},
+  {ts:"08:40",te:"09:30",cells:["","Fundamentos Matemáticos para Computação","Sociologia","",""],colors:["","#5c2d91","#8a007a","","#b8860b"]},
+  {ts:"09:30",te:"09:45",cells:["Intervalo","Intervalo","Intervalo","Intervalo","Intervalo"],colors:["","","","",""]},
+  {ts:"09:45",te:"10:35",cells:["","Fundamentos Matemáticos para Computação","Sociologia","Geografia I",""],colors:["","#5c2d91","#8a007a","#007a44","#b8860b"]},
+  {ts:"10:35",te:"11:25",cells:["","Fundamentos de TI","Geografia I","Matemática","Matemática"],colors:["","#005faa","#007a44","#0066aa","#0066aa"]},
+  {ts:"11:25",te:"12:15",cells:["","Fundamentos de TI","Geografia I","Matemática","Matemática"],colors:["","#005faa","#007a44","#0066aa","#0066aa"]},
+  {ts:"12:15",te:"13:15",cells:["Almoço","Almoço","Almoço","Almoço","Almoço"],colors:["","","","",""]},
+  {ts:"13:15",te:"14:05",cells:["Física I","Química I","","","Biologia I"],colors:["#6a7a77","#c05a00","","","#007a44"]},
+  {ts:"14:05",te:"14:55",cells:["Física I","Química I","","","Biologia I"],colors:["#6a7a77","#c05a00","","","#007a44"]},
+  {ts:"14:55",te:"15:45",cells:["Administração de Sistemas Operacionais","Língua Portuguesa I","","Educação Física I","Artes"],colors:["#c05a00","#1f2de5","#8a7000","#c05a00","#5c2d91"]},
+  {ts:"15:45",te:"16:00",cells:["Intervalo","Intervalo","Intervalo","Intervalo","Intervalo"],colors:["","","","",""]},
+  {ts:"16:00",te:"16:50",cells:["Administração de Sistemas Operacionais","Língua Portuguesa I","","Educação Física I","Artes"],colors:["#c05a00","#1f2de5","#8a7000","#c05a00","#5c2d91"]},
+  {ts:"16:50",te:"17:40",cells:["Princípios de Redes","","","Proj: Internet das Coisas",""],colors:["#007a8a","#c05a00","#005faa","#7a00cc","#007a8a"]},
+  {ts:"17:40",te:"18:30",cells:["Princípios de Redes","","","Algoritmos e Programação",""],colors:["#007a8a","#c05a00","#005faa","#007a8a","#a83279"]}
+];
+
 const FULL_NAMES = {
   "Princípios de Redes":"Princípios de Redes de Computadores",
-  "Proj: Internet das Coisas":"Projeto: Internet das Coisas",
-  "Fundamentos Matemáticos para Computação":"Fundamentos Matemáticos para Computação"
+  "Proj: Internet das Coisas":"Projeto: Internet das Coisas"
 };
-const subMap = {};
-ROWS.forEach(r => r.cells.forEach((c,i) => {
-  if(c && !['Intervalo','Almoço'].includes(c) && r.colors[i]) subMap[c] = r.colors[i];
-}));
-const subjects = Object.keys(subMap).sort();
-document.getElementById('stat-mat').textContent = subjects.length;
+
+function buildSubMap(rows){
+  const map = {};
+  rows.forEach(r => r.cells.forEach((c,i) => {
+    if(!c) return;
+    if(Array.isArray(c)){ c.forEach(item => { if(item.n && item.c) map[item.n] = item.c; }); return; }
+    if(['Intervalo','Almoço'].includes(c)) return;
+    if(r.colors[i]) map[c] = r.colors[i];
+  }));
+  return map;
+}
+const subMap_A = buildSubMap(ROWS_A), subjects_A = Object.keys(subMap_A).sort();
+const subMap_B = buildSubMap(ROWS_B), subjects_B = Object.keys(subMap_B).sort();
+let currentTurma = 'A';
+function activeRows(){ return currentTurma === 'A' ? ROWS_A : ROWS_B; }
+function activeSubMap(){ return currentTurma === 'A' ? subMap_A : subMap_B; }
+function activeSubjects(){ return currentTurma === 'A' ? subjects_A : subjects_B; }
+document.getElementById('stat-mat').textContent = subjects_A.length;
 
 function hexRgba(hex, a){
   if(!hex) return 'transparent';
   return `rgba(${parseInt(hex.slice(1,3),16)},${parseInt(hex.slice(3,5),16)},${parseInt(hex.slice(5,7),16)},${a})`;
 }
+function switchTurma(t){
+  currentTurma = t;
+  document.querySelectorAll('.turma-tab').forEach(b => b.classList.remove('active'));
+  document.getElementById('turmaTab'+t).classList.add('active');
+  const label = document.getElementById('schedTurmaLabel');
+  if(label) label.textContent = t;
+  buildChips();
+  buildLegend();
+  renderSched('');
+}
 function renderSched(filter){
   let h = '<thead><tr><th class="time-h">Horário</th>';
   DAYS.forEach(d => h += `<th>${d}</th>`);
   h += '</tr></thead><tbody>';
-  ROWS.forEach(r => {
+  activeRows().forEach(r => {
     h += '<tr>';
     h += `<td class="td-time">${r.ts}<br/>${r.te}</td>`;
     DAYS.forEach((_,i) => {
       const c = r.cells[i]||'', col = r.colors[i]||'';
-      if(!c){h+=`<td class="td-empty"></td>`;return;}
+      if(!c || (Array.isArray(c) && c.length===0)){h+=`<td class="td-empty"></td>`;return;}
       if(c==='Intervalo'){h+=`<td class="td-break">⏸ Intervalo</td>`;return;}
       if(c==='Almoço'){h+=`<td class="td-lunch">🍽 Almoço</td>`;return;}
+      if(Array.isArray(c)){
+        const inner = c.map(item => {
+          const dim = filter && item.n!==filter ? 'opacity:0.15;' : '';
+          return `<div style="background:${hexRgba(item.c,0.13)};color:${item.c};${dim}">${item.n}</div>`;
+        }).join('');
+        h += `<td class="td-split"><div class="split-cell">${inner}</div></td>`;
+        return;
+      }
       const dim = filter && c!==filter ? 'opacity:0.15;' : '';
       const ring = filter && c===filter ? `outline:2px solid ${col};` : '';
       h += `<td class="td-sub" style="background:${hexRgba(col,0.13)};color:${col};${dim}${ring}">${c}</td>`;
@@ -596,7 +665,7 @@ function renderSched(filter){
 }
 function buildChips(){
   let h = '<button class="chip on" onclick="doFilter(\'\',this)">Todas as matérias</button>';
-  subjects.forEach(s => h += `<button class="chip" onclick="doFilter('${s}',this)">${s}</button>`);
+  activeSubjects().forEach(s => h += `<button class="chip" onclick="doFilter('${s}',this)">${FULL_NAMES[s]||s}</button>`);
   document.getElementById('chipBar').innerHTML = h;
 }
 function doFilter(s, btn){
@@ -605,7 +674,8 @@ function doFilter(s, btn){
   btn.classList.add('on');
 }
 function buildLegend(){
-  document.getElementById('legendGrid').innerHTML = subjects.map(s => {
+  const subMap = activeSubMap();
+  document.getElementById('legendGrid').innerHTML = activeSubjects().map(s => {
     const full = FULL_NAMES[s]||s;
     return `<div style="display:flex;align-items:center;gap:6px;font-size:12.5px;"><span style="width:12px;height:12px;border-radius:50%;background:${subMap[s]};display:inline-block;flex-shrink:0;"></span>${full}</div>`;
   }).join('');
@@ -917,11 +987,11 @@ function toggleTheme(){
 
 // 1) Crie um tópico "secreto" (nome difícil de adivinhar) e assine em
 //    https://ntfy.sh/app (ou instale o app ntfy no celular) usando o MESMO nome abaixo.
-const NTFY_TOPIC = 'hub-redes-ifsp-a8f3k26742317';
+const NTFY_TOPIC = 'hub-redes-pirituba-a8f3k2';
 
 // 2) Crie uma chave grátis em https://web3forms.com (só pede um e-mail,
 //    sem cartão) e cole o "Access Key" recebido aqui:
-const WEB3FORMS_KEY = 'c5320490-54ee-4f61-916c-c5bcaacd9230';
+const WEB3FORMS_KEY = 'hub-redes-ifsp-a8f3k26742317';
 
 function openReportModal(){
   document.getElementById('reportModal').classList.add('open');
