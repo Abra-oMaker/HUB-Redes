@@ -706,17 +706,43 @@ async function fetchDatas(){
 
 // ── Parser
 // Formatos aceitos:
-//   - [ ] DD/MM – texto     (pendente)
-//   - [x] DD/MM – texto     (concluída)
-//   - [ ] DD/MM - texto     (traço simples também aceito)
-//   - [ ] texto             (sem data)
+//   - ## 2026                     (cabeçalho de ano — tudo abaixo dele, até o
+//                                  próximo cabeçalho de ano, pertence a esse ano)
+//   - [ ] DD/MM – texto           (pendente, usa o ano do cabeçalho vigente)
+//   - [x] DD/MM – texto           (concluída, usa o ano do cabeçalho vigente)
+//   - [ ] DD/MM - texto           (traço simples também aceito)
+//   - [ ] DD/MM/AAAA – texto      (ano explícito na própria linha — sempre
+//                                  tem prioridade sobre o cabeçalho vigente)
+//   - [ ] DD/MM/AA – texto        (ano com 2 dígitos também aceito, ex: /26)
+//   - [ ] texto                   (sem data)
+//
+// Como o ano é definido:
+// Antes do primeiro cabeçalho "## AAAA" da nota, assume-se 2026. A partir de
+// cada cabeçalho de ano, todas as datas sem ano explícito abaixo dele usam
+// esse ano, até aparecer outro cabeçalho de ano. Um erro de digitação numa
+// data fica isolado (não contamina as demais), diferente de uma inferência
+// automática por ordem.
+// Ex:
+//   ## 2026
+//   - [ ] 25/06 – Alguma coisa   → 2026
+//   - [ ] 25/07 – Alguma coisa   → 2026
+//   ## 2027
+//   - [ ] 23/06 – Alguma coisa   → 2027
 function parseMd(md){
   const lines = md.split('\n');
   const tasks = [];
   const today = todayDate();
+  let currentYear = 2026; // ano vigente até encontrar um cabeçalho "## AAAA"
 
   for(const raw of lines){
     const line = raw.trim();
+
+    // Cabeçalho de ano: "## 2026", "### 2027", "## Ano 2028" etc.
+    const yearHeading = line.match(/^#{1,6}\s*.*?(20\d{2})/);
+    if(yearHeading){
+      currentYear = parseInt(yearHeading[1], 10);
+      continue;
+    }
 
     // Só processa linhas de checklist
     const checkMatch = line.match(/^-\s*\[([ xX])\]\s+(.+)$/);
@@ -725,16 +751,24 @@ function parseMd(md){
     const done    = checkMatch[1].toLowerCase() === 'x';
     const content = checkMatch[2].trim();
 
-    // Tenta extrair DD/MM no início do conteúdo (com – ou - ou :)
-    const dateMatch = content.match(/^(\d{1,2})\/(\d{1,2})\s*[–\-:]\s*(.+)$/);
+    // Tenta extrair DD/MM (com ano opcional) no início do conteúdo (com – ou - ou :)
+    const dateMatch = content.match(/^(\d{1,2})\/(\d{1,2})(?:\/(\d{2,4}))?\s*[–\-:]\s*(.+)$/);
 
     if(dateMatch){
-      const day   = parseInt(dateMatch[1], 10);
-      const month = parseInt(dateMatch[2], 10);
-      const text  = dateMatch[3].trim();
+      const day     = parseInt(dateMatch[1], 10);
+      const month   = parseInt(dateMatch[2], 10);
+      const yearRaw = dateMatch[3];
+      const text    = dateMatch[4].trim();
 
-      // Infere o ano: se a data já passou muito (> 3 meses atrás), usa próximo ano
-      const year  = inferYear(day, month);
+      let year;
+      if(yearRaw){
+        // Ano explícito na própria linha: sempre tem prioridade
+        year = parseInt(yearRaw, 10);
+        if(yearRaw.length === 2) year += 2000; // "26" -> 2026
+      } else {
+        // Sem ano na linha: usa o ano do cabeçalho vigente
+        year = currentYear;
+      }
       const dateObj = new Date(year, month-1, day);
       const dateStr = `${year}-${String(month).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
       const diffDays = diffFromToday(dateObj);
@@ -764,16 +798,6 @@ function parseMd(md){
   return tasks;
 }
 
-function inferYear(day, month){
-  const now = new Date();
-  const thisYear = now.getFullYear();
-  const d1 = new Date(thisYear, month-1, day);
-  const d2 = new Date(thisYear+1, month-1, day);
-  // Se a data já passou há mais de 8 meses, provavelmente é do próximo ano
-  const diff = (d1 - now) / (1000*60*60*24);
-  if(diff < -240) return thisYear + 1;
-  return thisYear;
-}
 function diffFromToday(date){
   const t = new Date(); t.setHours(0,0,0,0);
   return Math.round((date - t) / 86400000);
@@ -991,7 +1015,7 @@ const NTFY_TOPIC = 'hub-redes-pirituba-a8f3k2';
 
 // 2) Crie uma chave grátis em https://web3forms.com (só pede um e-mail,
 //    sem cartão) e cole o "Access Key" recebido aqui:
-const WEB3FORMS_KEY = 'hub-redes-ifsp-a8f3k26742317';
+const WEB3FORMS_KEY = 'COLE_SUA_ACCESS_KEY_AQUI';
 
 function openReportModal(){
   document.getElementById('reportModal').classList.add('open');
